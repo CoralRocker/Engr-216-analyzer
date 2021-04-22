@@ -68,3 +68,11 @@ light_orange_accel_x = my_lab[lorng][ax]
 Exactly the same as `lab_analyze`, but does not use numpy arrays. Only returns
 python dictionaries and python lists. Really just an outdated version of 
 `lab_analyze`. 
+
+### vecmag(v1, v2)
+Returns the magnitude of the vector with components `v1` and `v2`.
+
+### vecdist(d, m1, m2, deriv=1)
+Returns the distance between the two markers `m1` and `m2` in the lab analysis
+in dictionary `d`. `deriv` is the type of distance to calculate. A value of 0
+calculates in pixels, 1 calculates in centimeters, and 2 in meters. 
