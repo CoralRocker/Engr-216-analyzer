@@ -25,3 +25,46 @@ markers, names for information about the markers, and timestamp and frame.
 | vy | 'vy' | Name for cm/s velocity list |
 | ax | 'ax' | Name for cm/s^2 acceleration list |
 | ay | 'ay' | Name for cm/s^2 acceleration list |
+
+# Functions
+Five functions are currently defined in `analyzer.py`. They allow the user
+to find indexes matching specific patterns in data, manipulate strings, and
+consolidate the raw CSV data into usable dictionaries and lists of floating
+point numbers.
+
+### fgt0(x, num_consecutive=10)
+`fgt0` returns the first index in the array `x` where a minimum of `num_consecutive`
+numbers in a row aren't 0. If the method fails to find an index, it returns 
+`None`. This will ensure that you'll get a nice IndexError if this fails, so catch
+that if you're expecting it. 
+
+### fgtdx(a, x=0, dx=0.5, num_consecutive=10)
+`fgtdx` returns the first index in the array `a` where the value is between 
+`(x - dx) < value < (x + dx)` for num_consecutive numbers in a row. Like `fgt0`,
+this method returns `None` on failure to find an index. 
+
+### floatify(s, default=0)
+`floatify` returns the floating-point value of the number represented in the
+string `s`. If `s` is not a floating point number or `float(s)` otherwise fails, 
+it will return `default`.
+
+### lab_analyze(filename, start=1)
+Returns a dictionary containing numpy arrays for the frame numbers, timestamps,
+and dictionaries for all the markers in the data file supplied. The marker 
+dictionaries contain numpy arrays for all the data belonging to that marker.
+`filename` should be given as a string, not an opened file. `start` will rarely 
+be at one. Data files should be checked in excel to find the right starting index.
+Note that `start` coincides with the frame number, not the index in a list. 
+
+Example: </br>
+Imagine you want to get the data for the acceleration of the light orange
+marker. The code to do this is:
+````
+my_lab = lab_analyze('lab_data.csv', 10)
+light_orange_accel_x = my_lab[lorng][ax]
+````
+
+### lab_analyze_list(filename, start=1)
+Exactly the same as `lab_analyze`, but does not use numpy arrays. Only returns
+python dictionaries and python lists. Really just an outdated version of 
+`lab_analyze`. 
