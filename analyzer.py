@@ -135,3 +135,20 @@ def lab_analyze_list(filename, start=1):
             else:
                 od[grpnm] = {key: list(map(floatify, datacols[i][start:]))}
     return od
+
+'''
+Return the magnitude of the vector represented by the two component lists.
+'''
+def vecmag(v1, v2):
+    return np.sqrt(v1**2 + v2**2)
+
+'''
+Returns the distance between m1 and m2.
+d is the list returned from lab_analyze. This method exclusively uses numpy.
+deriv is what type of distance to get. 1 is for distance in cm, 2 is in meter, and 0 is in pixel.
+'''
+def vecdist(d, m1, m2, deriv=1):
+    if deriv == 0:
+        return np.sqrt((d[m1][pos_x]-d[m2][pos_x])**2 + (d[m1][pos_y]-d[m2][pos_y])**2)
+    else:
+        return np.sqrt(((d[m1][pos_x]-d[m2][pos_x])/(100**(deriv-1)))**2 + ((d[m1][pos_y]-d[m2][pos_y])/(100**(deriv-1)))**2)
